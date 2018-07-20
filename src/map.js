@@ -2,7 +2,7 @@ import { loadList, loadDetails } from './api';
 import { getDetailsContentLayout } from './details';
 import { createFilterControl } from './filter';
 
-export function initMap(ymaps, containerId) {
+export default function initMap(ymaps, containerId) {
   const myMap = new ymaps.Map(containerId, {
     center: [55.76, 37.64],
     controls: [],
@@ -19,7 +19,7 @@ export function initMap(ymaps, containerId) {
     geoObjectBalloonContentLayout: getDetailsContentLayout(ymaps)
   });
 
-  objectManager.clusters.options.set('preset', 'islands#greenClusterIcons');
+  objectManager.clusters.options.set('clusterIconLayout', 'default#pieChart');
 
   loadList().then(data => {
     objectManager.add(data);
@@ -29,7 +29,7 @@ export function initMap(ymaps, containerId) {
   objectManager.objects.events.add('click', event => {
     const objectId = event.get('objectId');
     const obj = objectManager.objects.getById(objectId);
-
+    
     objectManager.objects.balloon.open(objectId);
 
     if (!obj.properties.details) {
@@ -50,4 +50,6 @@ export function initMap(ymaps, containerId) {
       obj => filters[obj.isActive ? 'active' : 'defective']
     );
   });
+
+  myMap.geoObjects.add(objectManager);
 }

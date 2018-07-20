@@ -5,6 +5,10 @@ body,
   padding: 0;
 }
 
+#map {
+  height: 100vh;
+}
+
 .details-info {
   margin-bottom: 10px;
 }
